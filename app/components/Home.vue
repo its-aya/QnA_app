@@ -3,7 +3,7 @@
           <ActionBar padding="15">
             <GridLayout width="94%">
                 <StackLayout orientation="horizontal"  horizontalAlignment="left" >
-                    <!--<Image src="~/images/logo.png" width="25" height="25" verticalAlignment="center" marginRight="10"/>-->
+                    <Image src="~/images/logo2.png" width="25" height="25" verticalAlignment="center" marginRight="10"/>
                     <Label :text="navbar" fontSize="20" verticalAlignment="center" marginLeft="15" />
 
                 </StackLayout>
@@ -17,7 +17,6 @@
                 </StackLayout>
             </GridLayout>
         </ActionBar>
-        
 
          <RadListView pullToRefresh="true" for="item in listofrequest" @itemTap="onItemTap" width="94%" horizontalAlignment="center" separatorColor="transparent" marginTop="30" @pullToRefreshInitiated="onPullToRefreshInitiated">
             <v-template>
@@ -43,6 +42,8 @@
 <script>
     import Login from "./Login";
     import AskQn from "./AskQn";
+    import ShowQn from "./ShowQn";
+
 const ObservableArray = require("tns-core-modules/data/observable-array").ObservableArray;
 import RadListView from 'nativescript-ui-listview/vue';
 const platformModule = require("tns-core-modules/platform");
@@ -62,7 +63,6 @@ const platformModule = require("tns-core-modules/platform");
                 this.$backendService
                     .getRequests()
                     .then(result => {
-                        // console.log(" ----0---- " + result);
                        this.listofrequest =  new ObservableArray(result);
                     },error => {
                         console.log(error);
@@ -72,6 +72,10 @@ const platformModule = require("tns-core-modules/platform");
             },
             onItemTap: function({ item }) {
                 console.log(item.id);
+                global.selectedQn = item.id;
+                this.$navigateTo(ShowQn, {
+                    clearHistory: true
+                });
             },
             logout() {
                 this.$backendService.logout();
@@ -98,7 +102,6 @@ const platformModule = require("tns-core-modules/platform");
             this.$backendService
                     .getRequests()
                     .then(result => {
-                        // console.log(" ----0---- " + result);
                        this.listofrequest =  new ObservableArray(result);
                     },error => {
                         console.log(error);
